@@ -1,0 +1,465 @@
+* {
+    box-sizing: border-box;
+  }
+  *:before, *:after {
+    content: '';
+    position: absolute;
+  }
+
+  .inputCheckbox {
+    height: 40px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 40px;
+  }
+
+  
+  /* ============================================== nut 1 =========================================================== */
+  
+  
+  .toggle-wrapper {
+    flex: 1 1 calc(100% / 3);
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  @media (max-width: 960px) {
+    .toggle-wrapper {
+      flex: 1 1 calc(100% / 2);
+    }
+  }
+  @media (max-width: 700px) {
+    .toggle-wrapper {
+      flex: 1 1 100%;
+    }
+  }
+  
+  /* .toggle-wrapper:nth-child(6) {
+    background: #c487de;
+  } */
+  
+  .toggle {
+    position: relative;
+    display: inline-block;
+  }
+  
+  label.toggle-item {
+    width: 7em;
+    background: #2e394d;
+    height: 3em;
+    display: inline-block;
+    border-radius: 50px;
+    margin: 40px;
+    position: relative;
+    transition: all .3s ease;
+    transform-origin: 20% center;
+    cursor: pointer;
+  }
+  label.toggle-item:before {
+    display: block;
+    transition: all .2s ease;
+    width: 2.3em;
+    height: 2.3em;
+    top: .25em;
+    left: .25em;
+    border-radius: 2em;
+    border: 2px solid #88cf8f;
+    transition: .3s ease;
+  }
+  
+  .dog-rollover label:before {
+    content: none;
+  }
+  .dog-rollover label .dog {
+    display: inline-block;
+    position: absolute;
+    width: 2.5em;
+    height: 2.5em;
+    top: .25em;
+    left: .2em;
+    transition: .6s ease;
+  }
+  .dog-rollover label .eyes {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #222;
+    border-radius: 50%;
+    transform: translate(8px, 14px);
+    box-shadow: 16px 0 0 #222, 22px -4px 0 12px #e4ac04;
+  }
+  .dog-rollover label .ear {
+    width: 18px;
+    height: 20px;
+    position: absolute;
+    left: -4px;
+    bottom: 80%;
+    background: #f9bb00;
+    margin-bottom: -5px;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    box-shadow: inset 4px 0 0 0px #ffffff, inset -4px 0 0 0px #ffffff;
+    transform: rotate(-40deg);
+  }
+  .dog-rollover label .ear.right {
+    transform: rotate(60deg) scaleX(-1);
+    left: auto;
+    transform-origin: center bottom;
+    transition: .4s ease-in-out;
+    right: 0px;
+  }
+  .dog-rollover label .face {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    position: absolute;
+    background: #fff;
+    z-index: 8;
+  }
+  .dog-rollover label .mouth {
+    position: absolute;
+    background: #222;
+    width: 14px;
+    height: 7px;
+    left: 50%;
+    margin-left: -7px;
+    bottom: 12px;
+    border-radius: 2px 2px 20px 20px;
+    bottom: 8px;
+    transform: scale(0);
+    transition: .1s ease;
+  }
+  .dog-rollover label .mouth:before {
+    width: 8px;
+    height: 8px;
+    background: #ec788d;
+    border-radius: 0 0 50% 50%;
+    transform: translate(3px, 5px);
+  }
+  .dog-rollover label:before {
+    border-color: white;
+    background: white;
+  }
+  
+  #doggo:checked ~ .cup {
+    animation: .2s linear cup 1s forwards;
+  }
+  #doggo:checked + label .dog {
+    left: 68px;
+    transform: rotate(360deg);
+  }
+  #doggo:checked + label .mouth {
+    transform: scale(1);
+    transition-delay: .7s;
+  }
+  #doggo:checked + label .ear.right {
+    transform: scaleX(-1) rotate(-35deg);
+    transition-delay: .6s;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+    /* ============================================== nut 2 =========================================================== */
+  
+    .toggle-wrapper1 {
+      flex: 1 1 calc(100% / 3);
+      min-height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    @media (max-width: 960px) {
+      .toggle-wrapper1 {
+        flex: 1 1 calc(100% / 2);
+      }
+    }
+    @media (max-width: 700px) {
+      .toggle-wrapper1 {
+        flex: 1 1 100%;
+      }
+    }
+    
+    /* .toggle-wrapper:nth-child(6) {
+      background: #c487de;
+    } */
+    
+    .toggle1 {
+      position: relative;
+      display: inline-block;
+    }
+    
+    label.toggle-item1 {
+      width: 7em;
+      background: #2e394d;
+      height: 3em;
+      display: inline-block;
+      border-radius: 50px;
+      margin: 40px;
+      position: relative;
+      transition: all .3s ease;
+      transform-origin: 20% center;
+      cursor: pointer;
+    }
+    label.toggle-item1:before {
+      display: block;
+      transition: all .2s ease;
+      width: 2.3em;
+      height: 2.3em;
+      top: .25em;
+      left: .25em;
+      border-radius: 2em;
+      border: 2px solid #88cf8f;
+      transition: .3s ease;
+    }
+    
+    .dog-rollover1 label:before {
+      content: none;
+    }
+    .dog-rollover1 label .dog1 {
+      display: inline-block;
+      position: absolute;
+      width: 2.5em;
+      height: 2.5em;
+      top: .25em;
+      left: .2em;
+      transition: .6s ease;
+    }
+    .dog-rollover1 label .eyes1 {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #222;
+      border-radius: 50%;
+      transform: translate(8px, 14px);
+      box-shadow: 16px 0 0 #222, 22px -4px 0 12px #e4ac04;
+    }
+    .dog-rollover1 label .ear1 {
+      width: 18px;
+      height: 20px;
+      position: absolute;
+      left: -4px;
+      bottom: 80%;
+      background: #f9bb00;
+      margin-bottom: -5px;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      box-shadow: inset 4px 0 0 0px #ffffff, inset -4px 0 0 0px #ffffff;
+      transform: rotate(-40deg);
+    }
+    .dog-rollover1 label .ear1.right1 {
+      transform: rotate(60deg) scaleX(-1);
+      left: auto;
+      transform-origin: center bottom;
+      transition: .4s ease-in-out;
+      right: 0px;
+    }
+    .dog-rollover1 label .face1 {
+      overflow: hidden;
+      border-radius: 50%;
+      width: 2.5em;
+      height: 2.5em;
+      position: absolute;
+      background: #fff;
+      z-index: 8;
+    }
+    .dog-rollover1 label .mouth1 {
+      position: absolute;
+      background: #222;
+      width: 14px;
+      height: 7px;
+      left: 50%;
+      margin-left: -7px;
+      bottom: 12px;
+      border-radius: 2px 2px 20px 20px;
+      bottom: 8px;
+      transform: scale(0);
+      transition: .1s ease;
+    }
+    .dog-rollover1 label .mouth1:before {
+      width: 8px;
+      height: 8px;
+      background: #ec788d;
+      border-radius: 0 0 50% 50%;
+      transform: translate(3px, 5px);
+    }
+    .dog-rollover1 label:before {
+      border-color: white;
+      background: white;
+    }
+    
+    #doggo1:checked ~ .cup {
+      animation: .2s linear cup 1s forwards;
+    }
+    #doggo1:checked + label .dog1 {
+      left: 68px;
+      transform: rotate(360deg);
+    }
+    #doggo1:checked + label .mouth1 {
+      transform: scale(1);
+      transition-delay: .7s;
+    }
+    #doggo1:checked + label .ear1.right1 {
+      transform: scaleX(-1) rotate(-35deg);
+      transition-delay: .6s;
+    }
+  
+  
+  
+  
+    /* =============================================== nut 3 =================================================================== */
+  
+  
+    .toggle-wrapper2 {
+      flex: 1 1 calc(100% / 3);
+      min-height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    @media (max-width: 960px) {
+      .toggle-wrapper2 {
+        flex: 1 1 calc(100% / 2);
+      }
+    }
+    @media (max-width: 700px) {
+      .toggle-wrapper2 {
+        flex: 1 1 100%;
+      }
+    }
+    
+    /* .toggle-wrapper:nth-child(6) {
+      background: #c487de;
+    } */
+    
+    .toggle2 {
+      position: relative;
+      display: inline-block;
+    }
+    
+    label.toggle-item2 {
+      width: 7em;
+      background: #2e394d;
+      height: 3em;
+      display: inline-block;
+      border-radius: 50px;
+      margin: 40px;
+      position: relative;
+      transition: all .3s ease;
+      transform-origin: 20% center;
+      cursor: pointer;
+    }
+    label.toggle-item2:before {
+      display: block;
+      transition: all .2s ease;
+      width: 2.3em;
+      height: 2.3em;
+      top: .25em;
+      left: .25em;
+      border-radius: 2em;
+      border: 2px solid #88cf8f;
+      transition: .3s ease;
+    }
+    
+    .dog-rollover2 label:before {
+      content: none;
+    }
+    .dog-rollover2 label .dog2 {
+      display: inline-block;
+      position: absolute;
+      width: 2.5em;
+      height: 2.5em;
+      top: .25em;
+      left: .2em;
+      transition: .6s ease;
+    }
+    .dog-rollover2 label .eyes2 {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #222;
+      border-radius: 50%;
+      transform: translate(8px, 14px);
+      box-shadow: 16px 0 0 #222, 22px -4px 0 12px #e4ac04;
+    }
+    .dog-rollover2 label .ear2 {
+      width: 18px;
+      height: 20px;
+      position: absolute;
+      left: -4px;
+      bottom: 80%;
+      background: #f9bb00;
+      margin-bottom: -5px;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      box-shadow: inset 4px 0 0 0px #ffffff, inset -4px 0 0 0px #ffffff;
+      transform: rotate(-40deg);
+    }
+    .dog-rollover2 label .ear2.right2 {
+      transform: rotate(60deg) scaleX(-1);
+      left: auto;
+      transform-origin: center bottom;
+      transition: .4s ease-in-out;
+      right: 0px;
+    }
+    .dog-rollover2 label .face2 {
+      overflow: hidden;
+      border-radius: 50%;
+      width: 2.5em;
+      height: 2.5em;
+      position: absolute;
+      background: #fff;
+      z-index: 8;
+    }
+    .dog-rollover2 label .mouth2 {
+      position: absolute;
+      background: #222;
+      width: 14px;
+      height: 7px;
+      left: 50%;
+      margin-left: -7px;
+      bottom: 12px;
+      border-radius: 2px 2px 20px 20px;
+      bottom: 8px;
+      transform: scale(0);
+      transition: .1s ease;
+    }
+    .dog-rollover2 label .mouth2:before {
+      width: 8px;
+      height: 8px;
+      background: #ec788d;
+      border-radius: 0 0 50% 50%;
+      transform: translate(3px, 5px);
+    }
+    .dog-rollover2 label:before {
+      border-color: white;
+      background: white;
+    }
+    
+    #doggo2:checked ~ .cup {
+      animation: .2s linear cup 1s forwards;
+    }
+    #doggo2:checked + label .dog2 {
+      left: 68px;
+      transform: rotate(360deg);
+    }
+    #doggo2:checked + label .mouth2 {
+      transform: scale(1);
+      transition-delay: .7s;
+    }
+    #doggo2:checked + label .ear2.right2 {
+      transform: scaleX(-1) rotate(-35deg);
+      transition-delay: .6s;
+    }
+  
