@@ -135,8 +135,11 @@ $(document).ready(function(){
 // ---------------------------------------- Send Messenger ----------------------------------------- //
     $("#btn-SendMsg").click(function(){
         var msg = document.getElementById("chatMsg").value;
+        var dataJSON = new Object();
+        dataJSON.dataName = "messenger"; 
+        dataJSON.dataMsg = msg;
         document.getElementById("chatMsg").value = "";
-        socket.emit("sendChatBox", msg);
+        socket.emit("sendChatBox", dataJSON);
     });
 });
 
