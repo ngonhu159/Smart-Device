@@ -25,11 +25,11 @@ io.on("connection", function(socket){
         async function updateData(){
             var resultDevice = await db.queryStatusDevice();
             if (resultDevice != "queryStatusDevice-ERROR"){
-                io.emit("deviceUpdateSuccessful", resultDevice);
+                socket.emit("deviceUpdateSuccessful", resultDevice);
             }
             var resultSensor = await db.queryValueSensor();
             if (resultSensor != "queryValueSensor-ERROR"){
-                io.emit("sensorUpdateSuccessful", resultSensor);
+                socket.emit("sensorUpdateSuccessful", resultSensor);
             }
         }
         updateData();
@@ -42,9 +42,10 @@ io.on("connection", function(socket){
             if (result == "queryControlDevice-OK"){
                 var resultDevice = await db.queryStatusDevice();
                 if (resultDevice != "queryStatusDevice-ERROR"){
-                    io.emit("deviceUpdateSuccessful", resultDevice);
+                    socket.emit("deviceUpdateSuccessful", resultDevice);
+                    console.log("Vao Day 1");
                 }
-            } 
+            }
         }
         controlDevice(msg);
     });
@@ -56,7 +57,7 @@ io.on("connection", function(socket){
             if (result == "queryUpdateValueSensor-OK"){
                 var resultSensor = await db.queryValueSensor();
                 if (resultSensor != "queryValueSensor-ERROR"){
-                    io.emit("sensorUpdateSuccessful", resultSensor);
+                    socket.emit("sensorUpdateSuccessful", resultSensor);
                 }
             }
         }
@@ -66,7 +67,7 @@ io.on("connection", function(socket){
 
     socket.on("sendChatBox", function(msg){
         console.log("Server: Send Messager")
-        io.emit("sendMsg", msg);
+        socket.emit("sendMsg", msg);
     });
 });
 

@@ -14,21 +14,21 @@ SocketIoClient webSocket;
 const int DHT_type = DHT22;  //Khai báo loại cảm biến, có 2 loại là DHT11 và DHT22
 DHT dht(pin_dht, DHT_type);
 
-const char* Host_Socket = "192.168.35.216";
+const char* Host_Socket = "192.168.0.116";
 unsigned int Port_Socket=3000;
 
-const String ssid = "UIT-GUEST";
-const String pwdWifi = "Uit05012017";
+const String ssid = "MQ_Network";
+const String pwdWifi = "1denmuoi1";
 
 int statusDevice[3] ={0, 0 , 0};
 String Msg = "";
 
-#define btnLight 0
-#define btnFan 0
+#define btnLight D3
+#define btnFan D4
 
-#define pinLight 0
-#define pinFan 0 
-#define pinPump 0
+#define pinLight D5
+#define pinFan D6
+#define pinPump D7
 #define maxScreen 1
 
 int screenLCD = 0;    // co 3 trang: trang thai thiet bi, nhiet do - do am, messenger
@@ -46,8 +46,9 @@ void setup() {
   lcd.setCursor(0,0);
   lcd.print("Connecting...");
   
-  pinMode(btnLight, OUTPUT);
-  pinMode(btnFan, OUTPUT);
+  pinMode(pinLight, OUTPUT);
+  pinMode(pinFan, OUTPUT);
+  pinMode(pinPump, OUTPUT);
   
   WiFi.begin(ssid, pwdWifi);
 
@@ -63,7 +64,6 @@ void setup() {
   lcd.print("Connected");
   Serial.println("Connected");
   delay(1000);
-
   webSocket.emit("clientUpdateStatus","");
   webSocket.on("deviceUpdateSuccessful", updateStatus_Device);
   webSocket.on("sendMsg", chatBox_LCD);
@@ -71,18 +71,20 @@ void setup() {
 }
 
 void loop() {
-  readSensor_DHT();
-  checkButton_DeviceControl();
+//  readSensor_DHT();
+//  checkButton_DeviceControl();
   display_LCD();
   webSocket.loop();
 }
 void updateStatus_Device(const char * payload, size_t length){
+  Serial.print(payload);
   pareJson_Data(payload);
   digitalWrite(pinLight, statusDevice[0]);
   digitalWrite(pinFan, statusDevice[1]);
   digitalWrite(pinPump, statusDevice[2]);
 }
 void chatBox_LCD(const char * payload, size_t length){
+  Serial.print(payload);
   if (payload != "")
   {
     DynamicJsonBuffer jsonBuffer;       // khai báo biến
@@ -91,7 +93,7 @@ void chatBox_LCD(const char * payload, size_t length){
       Serial.println("parseArray() failed");              // vào đây tức là parse thất bại
     } else {
       int A=root.size(); //root[index]["Obj"]             // nếu parse thành công thì sẽ gán 3 trạng thái lấy được trên server thông qua nodeMCU gán vào mảng tạm tempStatus
-      Msg = !root["dataName"];
+      Msg = root["dataMsg"].as<String>();;
     }
   }
 }
@@ -134,10 +136,11 @@ void pareJson_Data(String strJson)
     if (!root.success()) {
       Serial.println("parseArray() failed");              // vào đây tức là parse thất bại
     } else {
+      
       int A=root.size(); //root[index]["Obj"]             // nếu parse thành công thì sẽ gán 3 trạng thái lấy được trên server thông qua nodeMCU gán vào mảng tạm tempStatus
-      statusDevice[0] = !root[0]["status"]; 
-      statusDevice[1] = !root[1]["status"];
-      statusDevice[2] = !root[2]["status"];                  // sau khi lấy giá trị trạng thái xong thì phải làm sạch chuỗi để chuẩn bị cho lần nhận tiếp theo
+      statusDevice[0] = root[0]["status"]; 
+      statusDevice[1] = root[1]["status"];
+      statusDevice[2] = root[2]["status"];                  // sau khi lấy giá trị trạng thái xong thì phải làm sạch chuỗi để chuẩn bị cho lần nhận tiếp theo
     }
   }
 }
@@ -145,12 +148,11 @@ void readSensor_DHT()     // hàm đọc giá trị nhiệt độ - độ ẩm
 {
   H = dht.readHumidity();          //Read Humidity
   T = dht.readTemperature();       //Read Temperature
-  Serial.println("Gia tri nhiet do: " + (String)T + " Gia tri do am: " + (String)H);
 }
 void display_LCD(){
   endTime = millis();
   if (endTime - beginTime >= 5000){
-     if (screenLCD > maxScreen){
+     if (screenLCD >= maxScreen){
         screenLCD=0;
      } else {
         screenLCD++;
@@ -161,15 +163,15 @@ void display_LCD(){
   switch(screenLCD){
     case 0:
       lcd.setCursor(0,0);
-      lcd.print("L: " + statusDevice[0]);
+      lcd.print("L: " + (String)statusDevice[0]);
       lcd.setCursor(6,0);
-      lcd.print("F: " + statusDevice[1]);
+      lcd.print("F: " + (String)statusDevice[1]);
       lcd.setCursor(12,0);
-      lcd.print("P: " + statusDevice[2]);
+      lcd.print("P: " + (String)statusDevice[2]);
       lcd.setCursor(0,1);
-      lcd.print("Temp: " + (int)T);
+      lcd.print("Temp: " + (String)((int)T));
       lcd.setCursor(9,1);
-      lcd.print("Humi: " + (int)H);
+      lcd.print("Humi: " + (String)((int)H));
       break;
     case 1:
       lcd.setCursor(4,0);
