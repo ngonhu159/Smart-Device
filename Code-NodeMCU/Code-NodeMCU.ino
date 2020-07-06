@@ -9,16 +9,16 @@
 LiquidCrystal_I2C lcd(0x27,16,2);
 SocketIoClient webSocket;
 
-#define pin_dht 0
+#define pin_dht D8
 
 const int DHT_type = DHT22;  //Khai báo loại cảm biến, có 2 loại là DHT11 và DHT22
 DHT dht(pin_dht, DHT_type);
 
-const char* Host_Socket = "192.168.0.116";
+const char* Host_Socket = "192.168.137.1";
 unsigned int Port_Socket=3000;
 
-const String ssid = "MQ_Network";
-const String pwdWifi = "1denmuoi1";
+const String ssid = "wifi";
+const String pwdWifi = "ag170899";
 
 int statusDevice[3] ={0, 0 , 0};
 String Msg = "";
@@ -32,10 +32,11 @@ String Msg = "";
 #define maxScreen 1
 
 int screenLCD = 0;    // co 3 trang: trang thai thiet bi, nhiet do - do am, messenger
-float T = 0;  // nhiet do
-float H = 0;  // do am
+int T = 0;  // nhiet do
+int H = 0;  // do am
 double beginTime = 0;
 double endTime = 0;
+double beginTimeDHT = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -67,12 +68,15 @@ void setup() {
   webSocket.emit("clientUpdateStatus","");
   webSocket.on("deviceUpdateSuccessful", updateStatus_Device);
   webSocket.on("sendMsg", chatBox_LCD);
-  beginTime = millis();
+  beginTime = beginTimeDHT = millis();
 }
 
 void loop() {
-//  readSensor_DHT();
-//  checkButton_DeviceControl();
+  if (millis() - beginTimeDHT>=11000){
+    readSensor_DHT();
+    beginTimeDHT = millis();  
+  }
+  checkButton_DeviceControl();
   display_LCD();
   webSocket.loop();
 }
@@ -102,29 +106,29 @@ void checkButton_DeviceControl(){
     while(!digitalRead(btnLight)){};
     statusDevice[0] = !statusDevice[0];
     digitalWrite(pinLight, statusDevice[0]);
-    String strData = "{\"deviceName\":\"light\",\"deviceStatus\":"+(String)statusDevice[0]+"}";
+    String strData = "light."+(String)statusDevice[0];
     int lenght=0;
     while (strData[lenght] != NULL){
       lenght++;
     }
-    char data[lenght+1];
+    char data[lenght];
     strData.toCharArray(data, lenght+1);
     Serial.print(data);
-    webSocket.emit("controlStatusDevice", data);
+    webSocket.emit("NodeMCUcontrolStatusDevice", data);
   }
   if (!digitalRead(btnFan)){
     while(!digitalRead(btnFan)){};
     statusDevice[1] = !statusDevice[1];
     digitalWrite(pinFan, statusDevice[1]);
-    String strData = "{\"deviceName\":\"fan\",\"deviceStatus\":"+(String)statusDevice[1]+"}";
+    String strData = "fan."+(String)statusDevice[1];
     int lenght=0;
     while (strData[lenght] != NULL){
       lenght++;
     }
-    char data[lenght+1];
+    char data[lenght];
     strData.toCharArray(data, lenght+1);
     Serial.print(data);
-    webSocket.emit("controlStatusDevice", data);
+    webSocket.emit("NodeMCUcontrolStatusDevice", data);
   }
 }
 void pareJson_Data(String strJson)
@@ -146,8 +150,19 @@ void pareJson_Data(String strJson)
 }
 void readSensor_DHT()     // hàm đọc giá trị nhiệt độ - độ ẩm
 {
-  H = dht.readHumidity();          //Read Humidity
-  T = dht.readTemperature();       //Read Temperature
+//  H = dht.readHumidity();          //Read Humidity
+//  T = dht.readTemperature();       //Read Temperature
+  H++;
+  T++;
+  String strData = "temp."+(String)H+".humi."+(String)T;
+  int lenght=0;
+  while (strData[lenght] != NULL){
+    lenght++;
+  }
+  char data[lenght];
+  strData.toCharArray(data, lenght+1);
+  Serial.print(data);
+  webSocket.emit("NodeMCUsendValueSensor", data);
 }
 void display_LCD(){
   endTime = millis();
