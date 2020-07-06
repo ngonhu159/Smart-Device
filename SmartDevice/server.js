@@ -21,53 +21,74 @@ io.on("connection", function(socket){
 
     // ------------------------ Lắng nghe các sự kiện ------------------------- //
     socket.on("clientUpdateStatus", function(){
-        console.log("Server: Client request data from server");
         async function updateData(){
             var resultDevice = await db.queryStatusDevice();
             if (resultDevice != "queryStatusDevice-ERROR"){
-                socket.emit("deviceUpdateSuccessful", resultDevice);
+                io.emit("deviceUpdateSuccessful", resultDevice);
             }
             var resultSensor = await db.queryValueSensor();
             if (resultSensor != "queryValueSensor-ERROR"){
-                socket.emit("sensorUpdateSuccessful", resultSensor);
+                io.emit("sensorUpdateSuccessful", resultSensor);
             }
         }
         updateData();
     });
 
     socket.on("controlStatusDevice", function(msg){
-        console.log("Server: Client control device");
+        console.log(msg);
         async function controlDevice(msg){
             var result = await db.queryControlDevice(msg);
             if (result == "queryControlDevice-OK"){
                 var resultDevice = await db.queryStatusDevice();
                 if (resultDevice != "queryStatusDevice-ERROR"){
-                    socket.emit("deviceUpdateSuccessful", resultDevice);
-                    console.log("Vao Day 1");
+                    io.emit("deviceUpdateSuccessful", resultDevice);
                 }
-            }
+            } 
         }
         controlDevice(msg);
     });
-
-    socket.on("sendValueSensor", function(msg){
-        console.log("Server: Node send value data sensor");
+    socket.on("NodeMCUcontrolStatusDevice", function(msg){
+        var str = msg.split('.');
+        const obj = {
+            deviceName: str[0],
+            deviceStatus: Number(str[1])
+        };
+        console.log(obj);
+        async function controlDevice(obj){
+            var result = await db.queryControlDevice(obj);
+            if (result == "queryControlDevice-OK"){
+                var resultDevice = await db.queryStatusDevice();
+                if (resultDevice != "queryStatusDevice-ERROR"){
+                    io.emit("deviceUpdateSuccessful", resultDevice);
+                }
+            } 
+        }
+        controlDevice(obj);
+    });
+    socket.on("NodeMCUsendValueSensor", function(msg){
+        var str = msg.split('.');
+        const obj = {
+            temp: str[0],
+            tempValue: Number(str[1]),
+            humi: str[2],
+            humiValue: Number(str[3])
+        };
+        console.log(obj);
         async function updateValueSensor(msg){
             var result = await db.queryUpdateValueSensor(msg);
             if (result == "queryUpdateValueSensor-OK"){
                 var resultSensor = await db.queryValueSensor();
                 if (resultSensor != "queryValueSensor-ERROR"){
-                    socket.emit("sensorUpdateSuccessful", resultSensor);
+                    io.emit("sensorUpdateSuccessful", resultSensor);
                 }
             }
         }
-        updateValueSensor(msg);
+        updateValueSensor(obj);
     });
-
 
     socket.on("sendChatBox", function(msg){
         console.log("Server: Send Messager")
-        socket.emit("sendMsg", msg);
+        io.emit("sendMsg", msg);
     });
 });
 

@@ -46,15 +46,15 @@ exports.queryControlDevice = function(cmd){
 
 exports.queryUpdateValueSensor = function(cmd){
     var getJSON = JSON.parse(JSON.stringify(cmd)); // Tách JSON
-    var getTemperature = getJSON[0]["sensorName"]; 
-    var getTemperatureValue = getJSON[0]["sensorValue"]; 
-    var getHumidity = functiongetJSON[1]["sensorName"]; 
-    var getHumidityValue = getJSON[1]["sensorValue"]; 
+    var getTemperature = getJSON["temp"]; 
+    var getTemperatureValue = getJSON["tempValue"]; 
+    var getHumidity = getJSON["humi"]; 
+    var getHumidityValue = getJSON["humiValue"]; 
     console.log("Sensor1 = " + getTemperature + " Value1 = " + getTemperatureValue + " Sensor2 = " + getHumidity + " Value2 = " + getHumidityValue );
     return new Promise (function(resolve, reject){
-        conn.query("UPDATE device SET value = " + getTemperatureValue + " WHERE name = '" + getTemperature + "';", function(err, rows){
+        conn.query("UPDATE sensor SET value = " + getTemperatureValue + " WHERE name = '" + getTemperature + "';", function(err, rows){
             if (err) reject(err);
-            conn.query("UPDATE device SET value = " + getHumidityValue + " WHERE name = '" + getHumidity + "';", function(err, rows){
+            conn.query("UPDATE sensor SET value = " + getHumidityValue + " WHERE name = '" + getHumidity + "';", function(err, rows){
                 resolve("queryUpdateValueSensor-OK");
             });
         });

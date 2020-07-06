@@ -48,12 +48,10 @@ $(document).ready(function(){
 // -------------------------------- Các sự kiện nhận về  ----------------------------------------- //
     socket.on("deviceUpdateSuccessful", function(msg){
         displayDevice(msg);
-        console.log("deviceUpdateSuccessful 123");
     });
 
     socket.on("sensorUpdateSuccessful", function(msg){
         displaySensor(msg);
-        console.log("sensorUpdateSuccessful 123456");
     });
 
 // --------------------------------------- Hàm lấy trạng thái thiết bị và gửi đi ------------------------------------------ //
